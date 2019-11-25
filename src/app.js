@@ -1,12 +1,23 @@
 const path = require('path')
 const express = require('express')
+const hbs = require('hbs')
 
 const app = express()
-const publicDirectoryPath = path.join(__dirname, '../public')
 
+// Define paths for express configuration
+const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
+
+// Setup handlebars engine
 app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+
+// Setup location of static directory to serve
 app.use(express.static(publicDirectoryPath))
 
+// Routes of the pages being served
 app.get('', (req, res) => {
   res.render('index', {
     title: 'Weather App',
@@ -17,14 +28,15 @@ app.get('', (req, res) => {
 app.get('/about', (req, res) => {
   res.render('about', {
     title: 'Round about now',
-    name: 'The funk soul brother.'
+    name: 'The funk soul brother'
   })
 })
 
 app.get('/help', (req, res) => {
   res.render('help', {
     title: 'Pleeese!',
-    message: 'I need somebody'
+    message: 'I need somebody',
+    name: 'Bender Redriguez'
   })
 })
 
@@ -32,6 +44,21 @@ app.get('/weather', (req, res) => {
   res.send({
     location: 'Staffanstorp',
     forecast: 'Spreading gloom throughout the afternoon!'
+  })
+})
+
+app.get('/help/*', (req, res) => {
+  res.render('404error', {
+    title: '404 error',
+    errorMessage: 'Help article not found',
+    name: 'not Bender Rodriguez, no definitely not.'
+  })
+})
+app.get('*', (req, res) => {
+  res.render('404error', {
+    title: '404 error',
+    errorMessage: 'This isn\'t the page you\'re looking for, and those droids over to your left are definitely not the droids you\'re looking for either',
+    name: 'not Bender Rodriguez, no definitely not.'
   })
 })
 
