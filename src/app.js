@@ -40,10 +40,18 @@ app.get('/help', (req, res) => {
   })
 })
 
+// Using the return pattern rather than else
 app.get('/weather', (req, res) => {
+  if (!req.query.address) {
+    return res.send({
+      error: 'You need to provide an address.'
+    })
+  }
+
   res.send({
     location: 'Staffanstorp',
-    forecast: 'Spreading gloom throughout the afternoon!'
+    forecast: 'Spreading gloom throughout the afternoon!',
+    address: req.query.address
   })
 })
 
