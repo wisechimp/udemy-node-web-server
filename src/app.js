@@ -2,6 +2,9 @@ const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
 
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+
 const app = express()
 
 // Define paths for express configuration
@@ -48,10 +51,21 @@ app.get('/weather', (req, res) => {
     })
   }
 
-  res.send({
-    location: 'Staffanstorp',
-    forecast: 'Spreading gloom throughout the afternoon!',
-    address: req.query.address
+  geocode(req.query.address, (error, { latitude, longitude, location }) => {
+    if (error) {
+      return res.send({ error })
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({ error })
+      }
+      res.send({
+        location,
+        forecast: forecastData,
+        address: req.query.address
+      })
+    })
   })
 })
 
@@ -62,6 +76,7 @@ app.get('/help/*', (req, res) => {
     name: 'not Bender Rodriguez, no definitely not.'
   })
 })
+
 app.get('*', (req, res) => {
   res.render('404error', {
     title: '404 error',
