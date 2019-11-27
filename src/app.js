@@ -25,14 +25,14 @@ app.use(express.static(publicDirectoryPath))
 app.get('', (req, res) => {
   res.render('index', {
     title: 'Weather App',
-    name: 'Bender Rodriguez'
+    name: 'Wise Chimp.'
   })
 })
 
 app.get('/about', (req, res) => {
   res.render('about', {
     title: 'Round about now',
-    name: 'The funk soul brother'
+    name: 'Wise Chimp.'
   })
 })
 
@@ -40,7 +40,7 @@ app.get('/help', (req, res) => {
   res.render('help', {
     title: 'Pleeese!',
     message: 'I need somebody',
-    name: 'Bender Redriguez'
+    name: 'Wise Chimp.'
   })
 })
 
@@ -74,7 +74,7 @@ app.get('/help/*', (req, res) => {
   res.render('404error', {
     title: '404 error',
     errorMessage: 'Help article not found',
-    name: 'not Bender Rodriguez, no definitely not.'
+    name: 'Wise Chimp.'
   })
 })
 
@@ -82,7 +82,7 @@ app.get('*', (req, res) => {
   res.render('404error', {
     title: '404 error',
     errorMessage: 'This isn\'t the page you\'re looking for, and those droids over to your left are definitely not the droids you\'re looking for either',
-    name: 'not Bender Rodriguez, no definitely not.'
+    name: 'Wise Chimp.'
   })
 })
 
